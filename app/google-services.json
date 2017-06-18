@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "528040862188",
+    "firebase_url": "https://geoquester-ea09b.firebaseio.com",
+    "project_id": "geoquester-ea09b",
+    "storage_bucket": "geoquester-ea09b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528040862188:android:3f1eab00993107b3",
+        "android_client_info": {
+          "package_name": "nl.alexanderfreeman.geoquester"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528040862188-7os4cmimrca212ccri48oqnq8mpgtjba.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.alexanderfreeman.geoquester",
+            "certificate_hash": "f0cd794fb29c37ec8a2f6e07794405c8dd55b8b5"
+          }
+        },
+        {
+          "client_id": "528040862188-0ii2idk0viumuh0o3c4l095fb3ncfnsp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl7mAKfBa_HhqskDbBwbiZEIWDLixXaf8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528040862188-0ii2idk0viumuh0o3c4l095fb3ncfnsp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

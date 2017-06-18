@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GeoQuesteR</string>
+    <string name="empw">Email / password</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="quests">GeoQuests</string>
+    <string name="settings">Settings</string>
+    <string name="account">My Game</string>
+    <string name="signout">Sign out</string>
+    <string name="navigation">Navigate</string>
+</resources>

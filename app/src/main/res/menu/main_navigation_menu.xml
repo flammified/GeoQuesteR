@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/nav_group_1">
+
+        <item
+            android:id="@+id/drawer_account"
+            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:title="@string/account"/>
+        <item
+            android:id="@+id/drawer_quests"
+            android:icon="@drawable/ic_place_black_24dp"
+            android:title="@string/quests"/>
+        <item
+            android:id="@+id/drawer_navigation"
+            android:icon="@drawable/ic_navigation_black_24dp"
+            android:title="@string/navigation"/>
+    </group>
+    <group
+        android:id="@+id/nav_group_2">
+        <item
+            android:id="@+id/drawer_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/settings"/>
+        <item
+            android:id="@+id/drawer_signout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="@string/signout"/>
+    </group>
+</menu>
