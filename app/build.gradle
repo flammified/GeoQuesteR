@@ -32,6 +32,7 @@ dependencies {
 
     compile 'com.google.android.gms:play-services:11.0.1'
     compile 'com.google.android.gms:play-services-auth:11.0.1'
+    compile 'com.google.android.gms:play-services-vision:11.0.1'
 
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'de.hdodenhof:circleimageview:2.1.0'
