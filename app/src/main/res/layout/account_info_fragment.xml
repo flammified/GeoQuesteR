@@ -32,7 +32,7 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:progress="30"
+        android:progress="10"
         android:max="100"
         android:indeterminate="false"
         android:layout_weight="0.5" />
@@ -43,6 +43,6 @@
         android:textColor="@color/primary_dark"
         android:layout_gravity="center"
         android:layout_marginTop="3dp"
-        android:text="0 / 100 QuestPoints"/>
+        android:text="0 / ? GeoQuests completed!"/>
 
 </LinearLayout>

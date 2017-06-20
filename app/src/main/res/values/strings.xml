@@ -8,4 +8,17 @@
     <string name="account">My Game</string>
     <string name="signout">Sign out</string>
     <string name="navigation">Navigate</string>
+
+
+
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nisl mauris, iaculis quis sapien nec, scelerisque molestie est. In vel erat leo. Sed nec est sit amet sem consequat vehicula ac in enim. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam in rutrum augue, non hendrerit neque. Nunc ligula tortor, feugiat eget quam ut, posuere rhoncus mauris. Sed vitae enim nec nisi luctus varius. Integer et sapien at ex ultricies tincidunt vitae at magna. Donec tellus tortor, porttitor vel diam eu, mollis ullamcorper leo.
+
+Phasellus tempus tempor ex. Nam pharetra lectus eget augue maximus, at viverra eros ultricies. Nam pulvinar enim a commodo iaculis. Duis ut dui nec orci volutpat semper. Ut mauris lectus, sodales id sodales a, maximus ac quam. Proin sit amet sem in dolor scelerisque fermentum ut a diam. Aliquam id velit dictum, semper urna lacinia, viverra metus.
+
+Pellentesque at commodo urna. Suspendisse vitae tortor nec elit commodo cursus quis a lorem. Donec malesuada efficitur finibus. Sed a purus viverra leo malesuada pulvinar. Mauris lacinia velit ut sapien sodales, commodo tincidunt arcu luctus. Nullam ac ex massa. Phasellus in ex fermentum, dictum justo ut, posuere orci. Quisque in risus sed elit consectetur suscipit. Ut vitae diam porttitor nisl auctor bibendum. Proin luctus malesuada feugiat. Nunc blandit finibus elit eu dapibus. Pellentesque sit amet elit sem. Nullam lobortis leo non vulputate volutpat.
+
+Mauris euismod lobortis mauris, sed sagittis orci malesuada ut. Aliquam condimentum metus ante, et imperdiet sem blandit eu. Maecenas lacus lectus, malesuada quis lobortis fermentum, fermentum at ante. Praesent ornare, ipsum non pellentesque sagittis, libero erat vulputate lorem, et tincidunt nisl lorem pellentesque augue. Ut semper sed nisi quis consequat. Morbi vel convallis dui. Maecenas sit amet tincidunt dolor. Duis porta suscipit tincidunt. Cras dapibus dui metus, quis vulputate quam faucibus ut. Cras euismod libero ut quam rutrum imperdiet sit amet nec leo. Aenean et imperdiet ligula, nec facilisis ex. Sed eget ante condimentum, gravida nunc sed, mollis mauris. Integer sit amet malesuada metus. Morbi interdum lacus sed vulputate rhoncus. Proin bibendum ante id justo finibus efficitur in sit amet est.
+
+Vivamus pellentesque feugiat iaculis. Aliquam nec blandit velit. Proin vehicula elementum nulla, ac placerat velit cursus id. In ligula est, aliquam vitae metus a, commodo ullamcorper metus. Pellentesque ac velit in nunc commodo congue. Sed ullamcorper et lectus ut facilisis. Nunc nec diam blandit, congue est ac, luctus lacus. Proin in finibus ante. Nunc eleifend mollis metus, et posuere ipsum. Cras tempor tristique varius. Cras tempus, lacus a iaculis rutrum, dolor turpis faucibus odio, id volutpat eros orci non nisl. Vestibulum sed tincidunt nulla. Suspendisse id est et eros fringilla lacinia. Quisque condimentum aliquam nulla, et tristique libero dictum at. Proin feugiat sollicitudin enim eget laoreet.</string>
+    <string name="scan">Scan</string>
 </resources>

@@ -1,12 +1,15 @@
-package nl.alexanderfreeman.geoquester;
+package nl.alexanderfreeman.geoquester.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.games.quest.Quest;
+
 import java.util.ArrayList;
 
+import nl.alexanderfreeman.geoquester.R;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 
 /**
@@ -16,16 +19,18 @@ import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 public class GeoQuestAdapter extends RecyclerView.Adapter<GeoQuestHolder> {
 
     private ArrayList<GeoQuest> quests;
+    private QuestClickListener listener;
 
-    public GeoQuestAdapter(ArrayList<GeoQuest> quests) {
+    public GeoQuestAdapter(ArrayList<GeoQuest> quests, QuestClickListener listener) {
         this.quests = quests;
+        this.listener = listener;
     }
 
     @Override
     public GeoQuestHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.geoquest_item, parent, false);
-        return new GeoQuestHolder(inflatedView);
+        return new GeoQuestHolder(inflatedView, listener);
     }
 
     @Override

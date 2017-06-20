@@ -80,6 +80,7 @@ public class SignInActivity extends AppCompatActivity implements
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(SignInActivity.this, MainScreenActivity.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();

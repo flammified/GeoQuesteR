@@ -1,4 +1,4 @@
-package nl.alexanderfreeman.geoquester.Fragments;
+package nl.alexanderfreeman.geoquester.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,58 +8,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 
-import nl.alexanderfreeman.geoquester.GeoQuestAdapter;
+import nl.alexanderfreeman.geoquester.recycler.GeoQuestAdapter;
 import nl.alexanderfreeman.geoquester.R;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;
+import nl.alexanderfreeman.geoquester.recycler.QuestClickListener;
 
 /**
  * Created by Alexander Freeman on 18-6-2017.
  */
 
-public class NearbyFragment extends Fragment {
+public class NearbyFragment extends Fragment implements QuestClickListener {
 
     private GeoQuestAdapter questadapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.notfound_fragment, container, false);
+        View root = inflater.inflate(R.layout.quests_fragment, container, false);
 
         ArrayList<GeoQuest> list = new ArrayList<GeoQuest>();
-        GeoQuest e = new GeoQuest();
-        e.setName("Android");
-        e.setDistance(5);
-        e.setCoordinates(new LatLng(5.131231, 5.13414123));
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
-        list.add(e);
+        GeoQuest e = new GeoQuest("Not implemented yet :c", "Test", 52.2, 5.3, "www.google.nl", "5123123");
         list.add(e);
 
 
 
+        questadapter = new GeoQuestAdapter(list, this);
 
-        questadapter = new GeoQuestAdapter(list);
-
-        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.not_found_recycler);
+        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(questadapter);
         return root;
+    }
+
+    @Override
+    public void OnQuestClicked(GeoQuest q) {
+
     }
 }

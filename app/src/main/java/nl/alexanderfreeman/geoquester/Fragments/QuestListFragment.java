@@ -1,4 +1,4 @@
-package nl.alexanderfreeman.geoquester.Fragments;
+package nl.alexanderfreeman.geoquester.fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,6 +26,10 @@ public class QuestListFragment extends Fragment {
         private TabLayout tabLayout;
         private ViewPager viewPager;
 
+        FoundFragment found;
+        NotFoundFragment not_found;
+        NearbyFragment nearby;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
@@ -44,10 +47,16 @@ public class QuestListFragment extends Fragment {
         }
 
         private void setupViewPager(ViewPager viewPager) {
-            ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-            adapter.addFragment(new FoundFragment(), "Found");
-            adapter.addFragment(new NotFoundFragment(), "Not Found");
-            adapter.addFragment(new NearbyFragment(), "Nearby");
+
+            found = new FoundFragment();
+            not_found = new NotFoundFragment();
+            nearby = new NearbyFragment();
+
+            ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+            adapter.addFragment(found, "Found");
+            adapter.addFragment(not_found, "Not Found");
+            adapter.addFragment(nearby, "Nearby");
+            viewPager.setOffscreenPageLimit(3);
             viewPager.setAdapter(adapter);
         }
 
@@ -78,5 +87,15 @@ public class QuestListFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        found.refresh();
+////        not_found.refresh();
+////        found.refresh();
+//        Log.d("DEBUG", "QuestListOnResume");
+//    }
 }

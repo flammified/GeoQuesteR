@@ -1,60 +1,56 @@
 package nl.alexanderfreeman.geoquester;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.SignInAccount;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
-import nl.alexanderfreeman.geoquester.Fragments.AccountInfoFragment;
-import nl.alexanderfreeman.geoquester.Fragments.QuestListFragment;
+import nl.alexanderfreeman.geoquester.beans.GeoQuest;
+import nl.alexanderfreeman.geoquester.fragments.AccountInfoFragment;
+import nl.alexanderfreeman.geoquester.fragments.GeoQuestInformationFragment;
+import nl.alexanderfreeman.geoquester.fragments.NavigationFragment;
+import nl.alexanderfreeman.geoquester.fragments.QuestListFragment;
 
 /**
  * Created by Alexander Freeman on 11-6-2017.
  */
 
-public class MainScreenActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainScreenActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navview;
+
+    // Create a field that marks that something needs to be displayed
+    // after drawer closes. When null means no action (drawer closed
+    // by the user, not by selecting an item)
+    Integer itemIdWhenClosed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,6 @@ public class MainScreenActivity extends AppCompatActivity implements AdapterView
         configureFragment();
         configureToolbar();
         configureNavigationDrawer();
-
     }
 
     private void configureFragment() {
@@ -92,6 +87,7 @@ public class MainScreenActivity extends AppCompatActivity implements AdapterView
                 R.string.drawer_close
         );
         drawerLayout.addDrawerListener(mDrawerToggle);
+        drawerLayout.addDrawerListener(this);
         drawerLayout.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         mDrawerToggle.syncState();
     }
@@ -101,34 +97,17 @@ public class MainScreenActivity extends AppCompatActivity implements AdapterView
         final NavigationView navView = (NavigationView) findViewById(R.id.navigation);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(final MenuItem item) {
+                itemIdWhenClosed = item.getItemId(); // Mark action when closed
+                drawerLayout.closeDrawer(GravityCompat.START); // And drawer closing simultaneously
 
-                Fragment f = null;
-                int itemId = menuItem.getItemId();
-
-                if (itemId == R.id.drawer_quests) {
-                    f = new QuestListFragment();
-                    navView.setCheckedItem(R.id.drawer_quests);
-                }
-                if (itemId == R.id.drawer_account) {
-                    f = new AccountInfoFragment();
-                    navView.setCheckedItem(R.id.drawer_account);
-                }
-                if (itemId == R.id.drawer_signout) {
-                    signout();
-                    return false;
+                int size = navview.getMenu().size();
+                for (int i = 0; i < size; i++) {
+                    navview.getMenu().getItem(i).setChecked(false);
                 }
 
-
-                if (f != null) {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.frame, f);
-                    transaction.commit();
-                    drawerLayout.closeDrawers();
-                    return true;
-                }
-
-                return false;
+                navview.getMenu().findItem(item.getItemId()).setChecked(true);
+                return true;
             }
         });
 
@@ -187,9 +166,75 @@ public class MainScreenActivity extends AppCompatActivity implements AdapterView
         });
     }
 
+    //Needed to make my navigationdrawer fluid ;)
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onDrawerClosed(View view) {
+        // If id to show is marked, perform action
+        if (itemIdWhenClosed != null) {
+            displaySelectedScreen(itemIdWhenClosed);
+            // Reset value
+            itemIdWhenClosed = null;
+        }
+    }
+
+    // Now here just commit, don't close the drawer since this is already
+    // fired when it's closed
+    private void displaySelectedScreen(int itemId) {
+
+        final Fragment fragment;
+
+        if (itemId == R.id.drawer_account) {
+            fragment = new AccountInfoFragment();
+        }
+        else if (itemId == R.id.drawer_quests) {
+            fragment = new QuestListFragment();
+        }
+        else if (itemId == R.id.drawer_navigation) {
+            fragment = new NavigationFragment();
+        }
+        else if (itemId == R.id.drawer_signout) {
+            signout();
+            return;
+        }
+        else {
+            fragment = new AccountInfoFragment();
+            Toast.makeText(getApplicationContext(), "Congratulations, you broke it.", Toast.LENGTH_LONG);
+        }
+//        getSupportFragmentManager().popBackStack();
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame, fragment);
+        ft.commit();
+    }
+
+    public void switch_to_quest(GeoQuest q) {
+        Bundle data = new Bundle();//create bundle instance
+        data.putSerializable("quest", q);
+        GeoQuestInformationFragment gqif = new GeoQuestInformationFragment();
+        gqif.setArguments(data);
+
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame, gqif, "GeoQuestInformationFragment");
+        ft.commit();
+    }
+
+    //Unneeded overrides, shoo.
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
 
     }
 
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+    }
+
+
+    public void set_to_navigation() {
+        displaySelectedScreen(R.id.drawer_navigation);
+    }
 }
