@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "528040862188-smb14g4joosvmrijbldb2qs5l0h3129q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.alexanderfreeman.geoquester",
+            "certificate_hash": "7f46f2251d311c6dc5e029a7133c5c210b0ea3ba"
+          }
+        },
+        {
           "client_id": "528040862188-7os4cmimrca212ccri48oqnq8mpgtjba.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

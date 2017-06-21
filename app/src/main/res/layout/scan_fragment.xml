@@ -19,6 +19,12 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/scan"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/scan"
+            android:textStyle="bold"/>
     </RelativeLayout>
 
 

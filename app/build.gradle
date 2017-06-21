@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "nl.alexanderfreeman.geoquester"
         minSdkVersion 21
@@ -15,7 +15,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-wandroid.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -30,16 +30,18 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:percent:25.3.1'
 
-    compile 'com.google.android.gms:play-services:11.0.1'
-    compile 'com.google.android.gms:play-services-auth:11.0.1'
-    compile 'com.google.android.gms:play-services-vision:11.0.1'
+    compile 'com.google.android.gms:play-services-location:10.2.0'
+    compile 'com.google.android.gms:play-services-maps:10.2.0'
+    compile 'com.google.android.gms:play-services-auth:10.2.0'
+    compile 'com.google.android.gms:play-services-vision:10.2.0'
 
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    compile 'com.google.firebase:firebase-database:9.8.0'
-    compile 'com.google.firebase:firebase-auth:9.8.0'
+    compile 'com.google.firebase:firebase-core:10.2.0'
+    compile 'com.google.firebase:firebase-database:10.2.0'
+    compile 'com.google.firebase:firebase-auth:10.2.0'
 
     compile 'com.android.support:cardview-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
@@ -47,7 +49,6 @@ dependencies {
     compile 'io.nlopez.smartlocation:library:3.3.1'
 
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

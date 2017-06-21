@@ -33,7 +33,7 @@ import static android.app.Activity.RESULT_OK;
 import static nl.alexanderfreeman.geoquester.R.string.scan;
 
 /**
- * Created by A on 20-6-2017.
+ * Created by Alexander Freeman on 20-6-2017.
  */
 
 public class ScanFragment extends Fragment {
@@ -109,6 +109,7 @@ public class ScanFragment extends Fragment {
                         Barcode code = barcodes.valueAt(index);
 
                         Toast.makeText(getContext(), code.displayValue, Toast.LENGTH_LONG).show();
+                        validate_qr_code(code.displayValue);
                     }
                 }
             } catch (Exception e) {
@@ -124,6 +125,10 @@ public class ScanFragment extends Fragment {
         imageUri = Uri.fromFile(photo);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, PHOTO_REQUEST);
+    }
+
+    private boolean  validate_qr_code(String id) {
+        return true;
     }
 
 

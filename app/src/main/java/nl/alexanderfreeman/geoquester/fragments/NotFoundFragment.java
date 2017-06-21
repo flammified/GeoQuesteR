@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.games.quest.Quest;
-
 import java.util.ArrayList;
 
 import nl.alexanderfreeman.geoquester.recycler.GeoQuestAdapter;
