@@ -36,6 +36,7 @@ import nl.alexanderfreeman.geoquester.fragments.AccountInfoFragment;
 import nl.alexanderfreeman.geoquester.fragments.GeoQuestInformationFragment;
 import nl.alexanderfreeman.geoquester.fragments.NavigationFragment;
 import nl.alexanderfreeman.geoquester.fragments.QuestListFragment;
+import nl.alexanderfreeman.geoquester.fragments.ScanFragment;
 
 /**
  * Created by Alexander Freeman on 11-6-2017.
@@ -191,6 +192,9 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
         }
         else if (itemId == R.id.drawer_navigation) {
             fragment = new NavigationFragment();
+        }
+        else if (itemId == R.id.drawer_scan) {
+            fragment = new ScanFragment();
         }
         else if (itemId == R.id.drawer_signout) {
             signout();

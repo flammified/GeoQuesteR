@@ -86,7 +86,7 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
         for (GeoQuest q : list) {
             Location l = new Location("");
             l.setLatitude(q.getLatitude());
-            l.setLatitude(q.getLongitude());
+            l.setLongitude(q.getLongitude());
             Log.d("DEBUG", l.toString());
             Log.d("DEBUG", "" + l.distanceTo(lastKnownLocation));
             q.setDistance(l.distanceTo(lastKnownLocation));
