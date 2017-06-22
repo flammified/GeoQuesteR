@@ -32,7 +32,7 @@
             android:text="500m"
             android:gravity="center_horizontal" />
     </RelativeLayout>
-    <nl.alexanderfreeman.geoquester.views.CompassView
+    <nl.alexanderfreeman.geoquester.compassview.widget.CompassView
         android:id="@+id/compass"
         android:layout_width="match_parent"
         android:layout_height="0dp"

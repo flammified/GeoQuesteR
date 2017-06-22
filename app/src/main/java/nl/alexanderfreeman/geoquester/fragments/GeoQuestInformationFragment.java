@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import nl.alexanderfreeman.geoquester.singletons.NavigationSingleton;
-import nl.alexanderfreeman.geoquester.Utility.Utility;
+import nl.alexanderfreeman.geoquester.utility.Utility;
 import nl.alexanderfreeman.geoquester.MainScreenActivity;
 import nl.alexanderfreeman.geoquester.R;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;
@@ -37,6 +37,8 @@ public class GeoQuestInformationFragment extends Fragment implements OnMapReadyC
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View root = inflater.inflate(R.layout.quest_information_fragment, container, false);
+
+//        ((MainScreenActivity)getActivity()).set_hamburger(false);
 
         this.quest = (GeoQuest) getArguments().getSerializable("quest");
 
@@ -62,6 +64,11 @@ public class GeoQuestInformationFragment extends Fragment implements OnMapReadyC
     public void onResume(){
         super.onResume();
         Log.d("DEBUG", "Does this work?");
+    }
+
+    public void onPause() {
+        super.onPause();
+//        ((MainScreenActivity)getActivity()).set_hamburger(true);
     }
 
     @Override

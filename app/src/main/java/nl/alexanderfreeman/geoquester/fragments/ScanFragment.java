@@ -41,6 +41,7 @@ import io.nlopez.smartlocation.SmartLocation;
 import nl.alexanderfreeman.geoquester.MainScreenActivity;
 import nl.alexanderfreeman.geoquester.R;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;
+import nl.alexanderfreeman.geoquester.utility.Utility;
 
 import static android.app.Activity.RESULT_OK;
 import static nl.alexanderfreeman.geoquester.R.string.scan;
@@ -165,7 +166,7 @@ public class ScanFragment extends Fragment {
             @Override
             public void onDataChange(final DataSnapshot snapshot) {
 
-                if (!snapshot.exists()) {
+                if (snapshot.exists()) {
 
                     userRef.child("found/" + id).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -180,6 +181,11 @@ public class ScanFragment extends Fragment {
 
                                             @Override
                                             public void onLocationUpdated(Location location) {
+
+                                                if (location.isFromMockProvider()) {
+                                                    Utility.fakeLocationDialogAndQuit(getActivity());
+                                                }
+
                                                 Location l = new Location("quest");
                                                 l.setLatitude(quest.getLatitude());
                                                 l.setLongitude(quest.getLongitude());
@@ -193,7 +199,7 @@ public class ScanFragment extends Fragment {
 
                                         });
                             } else {
-                                status.setText("Quest does not exist");
+                                status.setText("Already found! No more points for you ;)");
                             }
                         }
 
@@ -204,7 +210,7 @@ public class ScanFragment extends Fragment {
                     });
                 }
                 else {
-                    status.setText("Already found! No more points for you ;)");
+                    status.setText("Quest does not exist");
                 }
             }
 

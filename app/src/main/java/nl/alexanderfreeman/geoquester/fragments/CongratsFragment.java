@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nl.alexanderfreeman.geoquester.R;
-import nl.alexanderfreeman.geoquester.Utility.ProgressBarAnimation;
+import nl.alexanderfreeman.geoquester.utility.ProgressBarAnimation;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 import nl.alexanderfreeman.geoquester.beans.User;
 
@@ -40,6 +39,7 @@ public class CongratsFragment extends Fragment {
 
         final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final DatabaseReference userref = FirebaseDatabase.getInstance().getReference("users/" + uid);
+        final DatabaseReference questref = FirebaseDatabase.getInstance().getReference("quests/" + quest_id);
 
         final ProgressBar bar = (ProgressBar) root.findViewById(R.id.congrats_level);
         final TextView level = (TextView) root.findViewById(R.id.level_text);
@@ -75,8 +75,11 @@ public class CongratsFragment extends Fragment {
 
                         Map<String, Object> found_quest = new HashMap<String, Object>();
                         found_quest.put("found/" + quest_id, true);
-
                         userref.updateChildren(found_quest);
+
+                        Map<String, Object> user_to_add = new HashMap<String, Object>();
+                        user_to_add.put("found/" + uid, true);
+                        questref.updateChildren(user_to_add);
                     }
                 }
                 else {

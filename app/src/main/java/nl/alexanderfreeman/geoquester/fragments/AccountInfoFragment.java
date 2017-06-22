@@ -24,7 +24,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import nl.alexanderfreeman.geoquester.MainScreenActivity;
 import nl.alexanderfreeman.geoquester.R;
-import nl.alexanderfreeman.geoquester.Utility.Utility;
+import nl.alexanderfreeman.geoquester.utility.Utility;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -122,37 +121,6 @@ public class AccountInfoFragment extends Fragment implements OnMapReadyCallback 
 				if (grantResults.length > 0
 						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-					// Getting LocationManager object from System Service LOCATION_SERVICE
-					LocationManager locationManager = (LocationManager) this.getContext().getSystemService(LOCATION_SERVICE);
-
-					// Creating a criteria object to retrieve provider
-					Criteria criteria = new Criteria();
-
-					// Getting the name of the best provider
-					String provider = locationManager.getBestProvider(criteria, true);
-
-					// Getting Current Location
-					Location location = null;
-					try {
-						location = locationManager.getLastKnownLocation(provider);
-						this.map.setMyLocationEnabled(true);
-					}
-					catch(SecurityException e) {
-
-					}
-
-					if (location != null) {
-						// Getting latitude of the current location
-						double latitude = location.getLatitude();
-
-						// Getting longitude of the current location
-						double longitude = location.getLongitude();
-
-						// Creating a LatLng object for the current location
-						LatLng latLng = new LatLng(latitude, longitude);
-						map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-					}
-
 					mapview.onResume();
 
 				} else {
@@ -182,6 +150,9 @@ public class AccountInfoFragment extends Fragment implements OnMapReadyCallback 
 					PERMISSION_REQUEST);
 
 		}
+
+        LatLng middle = new LatLng(52.205761, 5.316239);
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(middle, 5));
 
 		mapview.onResume();
     }

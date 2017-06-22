@@ -1,12 +1,43 @@
-package nl.alexanderfreeman.geoquester.Utility;
+package nl.alexanderfreeman.geoquester.utility;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.location.Location;
+import android.provider.Settings;
+
+import nl.alexanderfreeman.geoquester.R;
 
 /**
  * Created by A on 20-6-2017.
  */
 
 public class Utility {
+
+    public static void fakeLocationDialogAndQuit(final Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(R.string.app_name);
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setMessage("Fake location enabled; closing the app.")
+                .setCancelable(false)
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        activity.finish();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public static boolean isMockSettingsON(Context context) {
+        // returns true if mock location enabled, false if not enabled.
+        if (Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ALLOW_MOCK_LOCATION).equals("0"))
+            return false;
+        else
+            return true;
+    }
 
     public static int safeLongToInt(long l) {
         if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {

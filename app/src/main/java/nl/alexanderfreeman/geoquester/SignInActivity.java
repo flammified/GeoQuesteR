@@ -3,6 +3,7 @@ package nl.alexanderfreeman.geoquester;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,6 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import nl.alexanderfreeman.geoquester.beans.User;
+import nl.alexanderfreeman.geoquester.utility.Utility;
+
+import static android.provider.Settings.Secure.ALLOW_MOCK_LOCATION;
 
 public class SignInActivity extends AppCompatActivity implements
         View.OnClickListener,
@@ -43,6 +47,11 @@ public class SignInActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+
+        /** For API level < 23 */
+        if (Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {
+            Utility.fakeLocationDialogAndQuit(this);
+        }
 
         SignInButton button = (SignInButton) (findViewById(R.id.google_button));
         button.setOnClickListener(this);

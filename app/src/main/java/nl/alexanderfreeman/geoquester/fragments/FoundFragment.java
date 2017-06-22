@@ -43,8 +43,6 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.quests_fragment, container, false);
 
-        SmartLocation.with(getContext()).location().start(this);
-
         if (savedInstanceState != null) {
             ArrayList<GeoQuest> quests = (ArrayList<GeoQuest>) savedInstanceState.getSerializable("quests");
             if (quests != null) {
@@ -68,6 +66,19 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
         return root;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean visible)
+    {
+        super.setUserVisibleHint(visible);
+        if (visible && isResumed())
+        {
+            //Only manually call onResume if fragment is already visible
+            //Otherwise allow natural fragment lifecycle to call onResume
+            onResume();
+        }
+    }
+
+
     public void onStart() {
         super.onStart();
         Log.d("DEBUG", "Onstart?");
@@ -82,7 +93,7 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
     @Override
     public void onLocationUpdated(Location location) {
         lastKnownLocation = location;
-        Log.d("DEBUG", lastKnownLocation.toString());
+        Log.d("LOCATION", "Found");
         for (GeoQuest q : list) {
             Location l = new Location("");
             l.setLatitude(q.getLatitude());
@@ -97,14 +108,25 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
     @Override
     public void onResume() {
         super.onResume();
+        if (!getUserVisibleHint())
+        {
+            return;
+        }
+
         refresh();
+        SmartLocation.with(getContext()).location().start(this);
+    }
+
+    public void onPause() {
+        super.onPause();
+        SmartLocation.with(getContext()).location().stop();
     }
 
     public void refresh() {
 
         questadapter.notifyDataSetChanged();
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref;
         ref = FirebaseDatabase.getInstance().getReference("quests/");
 
@@ -119,17 +141,19 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
 
                 for (DataSnapshot dataSnapshot : listSnapshot.getChildren()) {
                     GeoQuest quest = dataSnapshot.getValue(GeoQuest.class);
-                    Location quest_location = new Location("");
-                    Log.d("DEBUG", ""+ quest.getLongitude());
-                    quest_location.setLongitude(quest.getLongitude());
-                    quest_location.setLatitude(quest.getLatitude());
+                    if (dataSnapshot.child("found/" + uid).exists()) {
+                        Location quest_location = new Location("");
+                        Log.d("DEBUG", "" + quest.getLongitude());
+                        quest_location.setLongitude(quest.getLongitude());
+                        quest_location.setLatitude(quest.getLatitude());
 
-                    if (lastKnownLocation != null) {
-                        quest.setDistance(quest_location.distanceTo(lastKnownLocation));
-                    } else {
-                        quest.setDistance(-1);
+                        if (lastKnownLocation != null) {
+                            quest.setDistance(quest_location.distanceTo(lastKnownLocation));
+                        } else {
+                            quest.setDistance(-1);
+                        }
+                        list.add(quest);
                     }
-                    list.add(quest);
                 }
 
                 questadapter.notifyDataSetChanged();

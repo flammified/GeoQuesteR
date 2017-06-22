@@ -31,8 +31,6 @@ public class NearbyFragment extends Fragment implements QuestClickListener {
         GeoQuest e = new GeoQuest("Not implemented yet :c", "Test", 52.2, 5.3, "www.google.nl", "5123123");
         list.add(e);
 
-
-
         questadapter = new GeoQuestAdapter(list, this);
 
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler);

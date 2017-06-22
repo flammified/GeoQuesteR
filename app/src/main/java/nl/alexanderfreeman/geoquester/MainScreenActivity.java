@@ -218,9 +218,35 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
         gqif.setArguments(data);
 
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame, gqif, "GeoQuestInformationFragment");
+        ft.addToBackStack("questinfo").replace(R.id.frame, gqif, "GeoQuestInformationFragment");
         ft.commit();
     }
+
+
+
+    public void set_to_navigation() {
+
+        int size = navview.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            navview.getMenu().getItem(i).setChecked(false);
+        }
+
+        navview.getMenu().findItem(R.id.drawer_navigation).setChecked(true);
+        displaySelectedScreen(R.id.drawer_navigation);
+    }
+
+    public void switch_to_congrats(GeoQuest quest, String id) {
+        Bundle data = new Bundle();//create bundle instance
+        data.putSerializable("quest", quest);
+        data.putSerializable("questid", id);
+        CongratsFragment congrats = new CongratsFragment();
+        congrats.setArguments(data);
+
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame, congrats, "congrats");
+        ft.commit();
+    }
+
 
     //Unneeded overrides, shoo.
 
@@ -238,20 +264,4 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
     public void onDrawerOpened(View drawerView) {
     }
 
-
-    public void set_to_navigation() {
-        displaySelectedScreen(R.id.drawer_navigation);
-    }
-
-    public void switch_to_congrats(GeoQuest quest, String id) {
-        Bundle data = new Bundle();//create bundle instance
-        data.putSerializable("quest", quest);
-        data.putSerializable("questid", id);
-        CongratsFragment congrats = new CongratsFragment();
-        congrats.setArguments(data);
-
-        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame, congrats, "congrats");
-        ft.commit();
-    }
 }

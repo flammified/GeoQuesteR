@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import nl.alexanderfreeman.geoquester.Utility.Utility;
+import nl.alexanderfreeman.geoquester.utility.Utility;
 import nl.alexanderfreeman.geoquester.R;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 

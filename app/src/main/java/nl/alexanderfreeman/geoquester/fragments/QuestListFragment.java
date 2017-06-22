@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.nlopez.smartlocation.SmartLocation;
 import nl.alexanderfreeman.geoquester.R;
 
 /**
@@ -48,16 +48,23 @@ public class QuestListFragment extends Fragment {
 
         private void setupViewPager(ViewPager viewPager) {
 
-            found = new FoundFragment();
             not_found = new NotFoundFragment();
+            found = new FoundFragment();
             nearby = new NearbyFragment();
 
             ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-            adapter.addFragment(found, "Found");
             adapter.addFragment(not_found, "Not Found");
+            adapter.addFragment(found, "Found");
             adapter.addFragment(nearby, "Nearby");
+
             viewPager.setOffscreenPageLimit(3);
             viewPager.setAdapter(adapter);
+
+            if (getArguments() != null) {
+                if (getArguments().containsKey("selected")) {
+                    viewPager.setCurrentItem(getArguments().getInt("selected"));
+                }
+            }
         }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -90,12 +97,10 @@ public class QuestListFragment extends Fragment {
 
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        found.refresh();
-////        not_found.refresh();
-////        found.refresh();
-//        Log.d("DEBUG", "QuestListOnResume");
-//    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        SmartLocation.with(getContext()).location().stop();
+    }
+
 }

@@ -1,4 +1,4 @@
-package nl.alexanderfreeman.geoquester.Utility;
+package nl.alexanderfreeman.geoquester.utility;
 
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
