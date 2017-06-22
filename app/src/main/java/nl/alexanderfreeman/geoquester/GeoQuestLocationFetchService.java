@@ -1,6 +1,9 @@
 package nl.alexanderfreeman.geoquester;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Handler;
@@ -25,7 +28,8 @@ import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 
 public class GeoQuestLocationFetchService extends Service {
     // constant
-    public static final long NOTIFY_INTERVAL = 10 * 60 * 1000; // 10 minutes
+    public static final long NOTIFY_INTERVAL = 2 * 60 * 1000; // 10 minutes
+    public static final int mId = 5;
 
     // run on another Thread to avoid crash
     private Handler mHandler = new Handler();
@@ -47,10 +51,10 @@ public class GeoQuestLocationFetchService extends Service {
             mTimer = new Timer();
         }
         // schedule task
-        mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, NOTIFY_INTERVAL);
+        mTimer.scheduleAtFixedRate(new QuestNotificationTask(), 0, NOTIFY_INTERVAL);
     }
 
-    class TimeDisplayTimerTask extends TimerTask {
+    class QuestNotificationTask extends TimerTask {
 
         @Override
         public void run() {
@@ -100,13 +104,16 @@ public class GeoQuestLocationFetchService extends Service {
                                         text = "There are " + close_quests.size() + " GeoQuest(s) nearby.";
                                     }
 
-                                    text = text + "Click to go to the app.";
-
                                     NotificationCompat.Builder mBuilder =
                                             new NotificationCompat.Builder(GeoQuestLocationFetchService.this)
                                                     .setSmallIcon(R.drawable.ic_stat_explore)
                                                     .setContentTitle("GeoQuests nearby")
-                                                    .setContentText("");
+                                                    .setContentText(text);
+
+                                    Notification noti = mBuilder.build();
+                                    NotificationManager mNotificationManager =
+                                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                    mNotificationManager.notify(mId, mBuilder.build());
                                 }
 
                                 @Override
@@ -121,13 +128,3 @@ public class GeoQuestLocationFetchService extends Service {
         }
     }
 }
-//
-
-
-//@Override
-//public void onCancelled(DatabaseError databaseError) {
-//
-//        }
-//        });
-//        }
-//        });
