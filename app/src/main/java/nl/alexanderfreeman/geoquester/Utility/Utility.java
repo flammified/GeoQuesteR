@@ -1,4 +1,4 @@
-package nl.alexanderfreeman.geoquester.singletons;
+package nl.alexanderfreeman.geoquester.Utility;
 
 import android.location.Location;
 
@@ -7,6 +7,14 @@ import android.location.Location;
  */
 
 public class Utility {
+
+    public static int safeLongToInt(long l) {
+        if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException
+                    (l + " cannot be cast to int without changing its value.");
+        }
+        return (int) l;
+    }
 
     public static String convert(double latitude, double longitude) {
         StringBuilder builder = new StringBuilder();

@@ -63,7 +63,7 @@
         android:layout_height="0dp"
         android:layout_weight="4.5"
         android:layout_margin="10dp"
-        android:text="@string/lorem"/>
+        android:text="Description"/>
 
 
 </LinearLayout>

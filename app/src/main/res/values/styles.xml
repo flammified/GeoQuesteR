@@ -8,6 +8,11 @@
 
     <style name="MainAppTheme" parent="@style/AppTheme" />
 
+    <style name="LinearProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/primary_dark</item>
+        <item name="android:progressBackgroundTint">@color/primary</item>
+    </style>s
+
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">3dp</item>

@@ -19,30 +19,42 @@
         android:layout_height="0dp"
         android:layout_weight="0.2"/>
     <TextView
+        android:id="@+id/account_level_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/primary_dark"
         android:layout_gravity="center"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
-        android:text="Level 1 Quester"/>
+        android:text="@string/placeholder_level"/>
 
     <ProgressBar
         android:id="@+id/level_tracker"
+        android:theme="@style/LinearProgress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:progress="10"
+        android:progress="0"
         android:max="100"
         android:indeterminate="false"
         android:layout_weight="0.5" />
 
     <TextView
+        android:id="@+id/account_points_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/primary_dark"
         android:layout_gravity="center"
         android:layout_marginTop="3dp"
-        android:text="0 / ? GeoQuests completed!"/>
+        android:text="@string/placerholder_questpoints"/>
+
+    <TextView
+        android:id="@+id/account_total_quests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_dark"
+        android:layout_gravity="center"
+        android:layout_marginTop="3dp"
+        android:text="@string/placeholder_count"/>
 
 </LinearLayout>

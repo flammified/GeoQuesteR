@@ -33,6 +33,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 import nl.alexanderfreeman.geoquester.fragments.AccountInfoFragment;
+import nl.alexanderfreeman.geoquester.fragments.CongratsFragment;
 import nl.alexanderfreeman.geoquester.fragments.GeoQuestInformationFragment;
 import nl.alexanderfreeman.geoquester.fragments.NavigationFragment;
 import nl.alexanderfreeman.geoquester.fragments.QuestListFragment;
@@ -128,7 +129,7 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
     }
 
     /* Signs a user out gracefully */
-    private void signout() {
+    public void signout() {
         FirebaseAuth.getInstance().signOut();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -240,5 +241,17 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
 
     public void set_to_navigation() {
         displaySelectedScreen(R.id.drawer_navigation);
+    }
+
+    public void switch_to_congrats(GeoQuest quest, String id) {
+        Bundle data = new Bundle();//create bundle instance
+        data.putSerializable("quest", quest);
+        data.putSerializable("questid", id);
+        CongratsFragment congrats = new CongratsFragment();
+        congrats.setArguments(data);
+
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame, congrats, "congrats");
+        ft.commit();
     }
 }

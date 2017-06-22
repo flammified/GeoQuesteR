@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,17 +18,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
+import nl.alexanderfreeman.geoquester.MainScreenActivity;
 import nl.alexanderfreeman.geoquester.R;
+import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 
 import static android.app.Activity.RESULT_OK;
 import static nl.alexanderfreeman.geoquester.R.string.scan;
@@ -43,6 +56,7 @@ public class ScanFragment extends Fragment {
     private Uri imageUri;
 
     private ImageView image;
+    private TextView status;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +71,8 @@ public class ScanFragment extends Fragment {
             return root;
         }
 
-        image = (ImageView) root.findViewById(R.id.image);
+        image = (ImageView) root.findViewById(R.id.qr_image);
+        status = (TextView) root.findViewById(R.id.status_text);
 
         Button scan = (Button) root.findViewById(R.id.scan);
 
@@ -65,6 +80,7 @@ public class ScanFragment extends Fragment {
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                status.setText("");
                 takePicture();
             }
         });
@@ -97,6 +113,7 @@ public class ScanFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        status.setText("");
         if (requestCode == PHOTO_REQUEST && resultCode == RESULT_OK) {
             launchMediaScanIntent();
             try {
@@ -105,9 +122,16 @@ public class ScanFragment extends Fragment {
                     Frame frame = new Frame.Builder().setBitmap(bitmap).build();
                     image.setImageBitmap(bitmap);
                     SparseArray<Barcode> barcodes = detector.detect(frame);
+
+                    if (barcodes.size() == 0) {
+                        status.setText("This is not a QR code. Please scan a QR code.");
+                        return;
+                    }
+
+                    Log.d("DEBUG", "" + barcodes.size());
+
                     for (int index = 0; index < barcodes.size(); index++) {
                         Barcode code = barcodes.valueAt(index);
-
                         Toast.makeText(getContext(), code.displayValue, Toast.LENGTH_LONG).show();
                         validate_qr_code(code.displayValue);
                     }
@@ -127,11 +151,67 @@ public class ScanFragment extends Fragment {
         startActivityForResult(intent, PHOTO_REQUEST);
     }
 
-    private boolean  validate_qr_code(String id) {
-        return true;
+    private void onFireBaseQRResult(GeoQuest quest, String id) {
+        status.setText("Congrats ;)");
+        ((MainScreenActivity) getActivity()).switch_to_congrats(quest, id);
     }
 
+    private void validate_qr_code(final String id) {
+        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final DatabaseReference questRef = FirebaseDatabase.getInstance().getReference("quests");
+        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + user);
 
+        questRef.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot snapshot) {
 
+                if (!snapshot.exists()) {
 
+                    userRef.child("found/" + id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (snapshot.exists()) {
+
+                                final GeoQuest quest = snapshot.getValue(GeoQuest.class);
+                                SmartLocation.with(getActivity()).location()
+                                        .oneFix()
+                                        .start(new OnLocationUpdatedListener() {
+
+                                            @Override
+                                            public void onLocationUpdated(Location location) {
+                                                Location l = new Location("quest");
+                                                l.setLatitude(quest.getLatitude());
+                                                l.setLongitude(quest.getLongitude());
+
+                                                if (location.distanceTo(l) < 50) {
+                                                    onFireBaseQRResult(quest, snapshot.getKey());
+                                                } else {
+                                                    status.setText("You are too far away.");
+                                                }
+                                            }
+
+                                        });
+                            } else {
+                                status.setText("Quest does not exist");
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            status.setText("Something went wrong; try again");
+                        }
+                    });
+                }
+                else {
+                    status.setText("Already found! No more points for you ;)");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                status.setText("Something went wrong; try again");
+            }
+        });
+    }
 }

@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import nl.alexanderfreeman.geoquester.singletons.NavigationSingleton;
-import nl.alexanderfreeman.geoquester.singletons.Utility;
+import nl.alexanderfreeman.geoquester.Utility.Utility;
 import nl.alexanderfreeman.geoquester.MainScreenActivity;
 import nl.alexanderfreeman.geoquester.R;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;

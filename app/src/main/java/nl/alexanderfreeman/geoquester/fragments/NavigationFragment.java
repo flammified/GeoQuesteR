@@ -20,14 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.text.NumberFormat;
 
 import nl.alexanderfreeman.geoquester.R;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 import nl.alexanderfreeman.geoquester.singletons.NavigationSingleton;
-import nl.alexanderfreeman.geoquester.singletons.Utility;
+import nl.alexanderfreeman.geoquester.Utility.Utility;
 import nl.alexanderfreeman.geoquester.views.CompassView;
 
 public class NavigationFragment extends Fragment implements SensorEventListener, android.location.LocationListener {

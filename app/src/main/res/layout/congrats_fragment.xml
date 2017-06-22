@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:background="#ffff">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:src="@drawable/congrats"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7">
+        <RelativeLayout
+            android:id="@+id/congrats_message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="30dp"
+            android:background="@color/primary">
+            <TextView
+                android:id="@+id/congrats_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:text="@string/congratulations"
+                />
+            <TextView
+                android:id="@+id/message_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/congrats_message"
+                android:textStyle="bold"
+                android:text="@string/you_found_it" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/level_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/congrats_message_layout"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="Level 1 Quester"/>
+        <ProgressBar
+            android:id="@+id/congrats_level"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:theme="@style/LinearProgress"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@id/level_text"
+            android:progress="0"
+            android:max="100"
+            android:indeterminate="false" />
+        <TextView
+            android:id="@+id/extra_points_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/congrats_level"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="@string/new_points"/>
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="30dp"-->
+            <!--android:text="Go back"-->
+            <!--android:layout_below="@id/extra_points_text"-->
+            <!--android:layout_centerHorizontal="true"/>-->
+    </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -21,7 +21,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import nl.alexanderfreeman.geoquester.beans.User;
 
 public class SignInActivity extends AppCompatActivity implements
         View.OnClickListener,
@@ -78,9 +86,7 @@ public class SignInActivity extends AppCompatActivity implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(SignInActivity.this, MainScreenActivity.class);
-                            startActivity(intent);
-                            finish();
+                            createUserIfNewAndContinue();
                         } else {
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -88,6 +94,37 @@ public class SignInActivity extends AppCompatActivity implements
                         }
                     }
                 });
+    }
+
+    private void createUserIfNewAndContinue() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final DatabaseReference userref = FirebaseDatabase.getInstance().getReference("users");
+
+        userref.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    User new_user = new User();
+                    new_user.points = 0;
+                    new_user.level = 1;
+                    new_user.count = 0;
+                    userref.child(user.getUid()).setValue(new_user);
+                }
+                switch_to_main();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Something went wrong; please try again", Toast.LENGTH_LONG);
+            }
+        });
+    }
+
+
+    private void switch_to_main() {
+        Intent intent = new Intent(SignInActivity.this, MainScreenActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
