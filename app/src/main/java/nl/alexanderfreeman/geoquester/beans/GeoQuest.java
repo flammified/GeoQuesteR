@@ -1,5 +1,6 @@
 package nl.alexanderfreeman.geoquester.beans;
 
+import android.location.Location;
 import android.net.Uri;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -29,6 +30,13 @@ public class GeoQuest implements Serializable {
         this.image = image;
         this.code = code;
         this.distance = 0;
+    }
+
+    public Location getLocation() {
+        Location l = new Location("");
+        l.setLongitude(this.longitude);
+        l.setLatitude(this.latitude);
+        return l;
     }
 
     public String getDescription() {

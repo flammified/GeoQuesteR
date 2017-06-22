@@ -3,7 +3,6 @@ package nl.alexanderfreeman.geoquester.fragments;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +56,7 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
         questadapter = new GeoQuestAdapter(list, this);
 
         Log.d("DEBUG", "OnCreateView");
-        refresh();
+        refreshUI();
 
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -85,6 +83,23 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (!getUserVisibleHint())
+        {
+            return;
+        }
+
+        refreshUI();
+        SmartLocation.with(getContext()).location().start(this);
+    }
+
+    public void onPause() {
+        super.onPause();
+        SmartLocation.with(getContext()).location().stop();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("quests", list);
@@ -105,25 +120,7 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
         questadapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!getUserVisibleHint())
-        {
-            return;
-        }
-
-        refresh();
-        SmartLocation.with(getContext()).location().start(this);
-    }
-
-    public void onPause() {
-        super.onPause();
-        SmartLocation.with(getContext()).location().stop();
-    }
-
-    public void refresh() {
-
+    public void refreshUI() {
         questadapter.notifyDataSetChanged();
 
         final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -164,9 +161,7 @@ public class FoundFragment extends Fragment implements OnLocationUpdatedListener
 
             }
         });
-
     }
-
 
     @Override
     public void OnQuestClicked(GeoQuest q) {

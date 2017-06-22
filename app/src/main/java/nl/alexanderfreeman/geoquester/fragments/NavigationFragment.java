@@ -53,12 +53,7 @@ public class NavigationFragment extends Fragment{
             name.setText(quest.getName());
             coords.setText(Utility.convert(quest.getLatitude(), quest.getLongitude()));
             distance.setText("");
-
-            Location l = new Location("");
-            l.setLatitude(quest.getLatitude());
-            l.setLongitude(quest.getLongitude());
         }
-
     }
 
     @Override
@@ -69,17 +64,14 @@ public class NavigationFragment extends Fragment{
         SmartLocation.with(getContext()).location()
                 .start(new OnLocationUpdatedListener() {
                     @Override
-                    public void onLocationUpdated(Location location) {
-                        if (location.isFromMockProvider()) {
+                    public void onLocationUpdated(Location my_location) {
+                        if (my_location.isFromMockProvider()) {
                             Utility.fakeLocationDialogAndQuit(getActivity());
                         }
                         GeoQuest quest = NavigationSingleton.getInstance().getQuest();
                         if (quest != null) {
-                            Location l = new Location("");
-                            l.setLatitude(quest.getLatitude());
-                            l.setLongitude(quest.getLongitude());
-                            distance.setText("" + l.distanceTo(location));
-                            cv.initializeCompass(compassSensorManager, location, l, R.drawable.pijl);
+                            distance.setText("" + quest.getLocation().distanceTo(my_location));
+                            cv.initializeCompass(compassSensorManager, my_location, quest.getLocation(), R.drawable.pijl);
                         }
 
                     }

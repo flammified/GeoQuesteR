@@ -1,11 +1,16 @@
 package nl.alexanderfreeman.geoquester;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.SingleLineTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -29,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
 
 import nl.alexanderfreeman.geoquester.beans.User;
 import nl.alexanderfreeman.geoquester.utility.Utility;
@@ -58,9 +65,7 @@ public class SignInActivity extends AppCompatActivity implements
 
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(this, MainScreenActivity.class);
-            startActivity(intent);
-            finish();
+            switchToMain();
         }
     }
 
@@ -87,8 +92,6 @@ public class SignInActivity extends AppCompatActivity implements
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d("Debug", "firebaseAuthWithGoogle:" + acct.getId());
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -119,7 +122,7 @@ public class SignInActivity extends AppCompatActivity implements
                     new_user.count = 0;
                     userref.child(user.getUid()).setValue(new_user);
                 }
-                switch_to_main();
+                switchToMain();
             }
 
             @Override
@@ -129,11 +132,27 @@ public class SignInActivity extends AppCompatActivity implements
         });
     }
 
+    private void switchToMain() {
 
-    private void switch_to_main() {
-        Intent intent = new Intent(SignInActivity.this, MainScreenActivity.class);
+        if (!isMyServiceRunning(GeoQuestLocationFetchService.class)) {
+
+            //Start the service!
+            startService(new Intent(this, GeoQuestLocationFetchService.class));
+        }
+
+        Intent intent = new Intent(this, MainScreenActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

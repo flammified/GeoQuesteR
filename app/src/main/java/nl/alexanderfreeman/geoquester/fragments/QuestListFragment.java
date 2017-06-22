@@ -23,49 +23,55 @@ import nl.alexanderfreeman.geoquester.R;
  */
 
 public class QuestListFragment extends Fragment {
-        private TabLayout tabLayout;
-        private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
-        FoundFragment found;
-        NotFoundFragment not_found;
-        NearbyFragment nearby;
+    FoundFragment found;
+    NotFoundFragment not_found;
+    NearbyFragment nearby;
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            super.onCreateView(inflater, container, savedInstanceState);
-            View root = inflater.inflate(R.layout.quest_list_fragment, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View root = inflater.inflate(R.layout.quest_list_fragment, container, false);
 
-            Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-            viewPager = (ViewPager) root.findViewById(R.id.viewpager);
-            setupViewPager(viewPager);
+        viewPager = (ViewPager) root.findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
 
-            tabLayout = (TabLayout) root.findViewById(R.id.tabs);
-            tabLayout.setupWithViewPager(viewPager);
-            return root;
-        }
+        tabLayout = (TabLayout) root.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        return root;
+    }
 
-        private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(ViewPager viewPager) {
 
-            not_found = new NotFoundFragment();
-            found = new FoundFragment();
-            nearby = new NearbyFragment();
+        not_found = new NotFoundFragment();
+        found = new FoundFragment();
+        nearby = new NearbyFragment();
 
-            ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-            adapter.addFragment(not_found, "Not Found");
-            adapter.addFragment(found, "Found");
-            adapter.addFragment(nearby, "Nearby");
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter.addFragment(not_found, "Not Found");
+        adapter.addFragment(found, "Found");
+        adapter.addFragment(nearby, "Nearby");
 
-            viewPager.setOffscreenPageLimit(3);
-            viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setAdapter(adapter);
 
-            if (getArguments() != null) {
-                if (getArguments().containsKey("selected")) {
-                    viewPager.setCurrentItem(getArguments().getInt("selected"));
-                }
+        if (getArguments() != null) {
+            if (getArguments().containsKey("selected")) {
+                viewPager.setCurrentItem(getArguments().getInt("selected"));
             }
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SmartLocation.with(getContext()).location().stop();
+    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -97,10 +103,6 @@ public class QuestListFragment extends Fragment {
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        SmartLocation.with(getContext()).location().stop();
-    }
+
 
 }

@@ -12,9 +12,7 @@ public class NavigationSingleton {
 
     private GeoQuest quest;
 
-    private NavigationSingleton () {
-
-    }
+    private NavigationSingleton () {}
 
     public static NavigationSingleton getInstance() {
         if (instance == null) {

@@ -152,11 +152,6 @@ public class ScanFragment extends Fragment {
         startActivityForResult(intent, PHOTO_REQUEST);
     }
 
-    private void onFireBaseQRResult(GeoQuest quest, String id) {
-        status.setText("Congrats ;)");
-        ((MainScreenActivity) getActivity()).switch_to_congrats(quest, id);
-    }
-
     private void validate_qr_code(final String id) {
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final DatabaseReference questRef = FirebaseDatabase.getInstance().getReference("quests");
@@ -180,17 +175,13 @@ public class ScanFragment extends Fragment {
                                         .start(new OnLocationUpdatedListener() {
 
                                             @Override
-                                            public void onLocationUpdated(Location location) {
+                                            public void onLocationUpdated(Location my_location) {
 
-                                                if (location.isFromMockProvider()) {
+                                                if (my_location.isFromMockProvider()) {
                                                     Utility.fakeLocationDialogAndQuit(getActivity());
                                                 }
 
-                                                Location l = new Location("quest");
-                                                l.setLatitude(quest.getLatitude());
-                                                l.setLongitude(quest.getLongitude());
-
-                                                if (location.distanceTo(l) < 50) {
+                                                if (my_location.distanceTo(quest.getLocation()) < 50) {
                                                     onFireBaseQRResult(quest, snapshot.getKey());
                                                 } else {
                                                     status.setText("You are too far away.");
@@ -220,4 +211,9 @@ public class ScanFragment extends Fragment {
             }
         });
     }
+
+    private void onFireBaseQRResult(GeoQuest quest, String id) {
+        ((MainScreenActivity) getActivity()).switch_to_congrats(quest, id);
+    }
+
 }

@@ -95,8 +95,7 @@ public class NotFoundFragment extends Fragment implements OnLocationUpdatedListe
     @Override
     public void onResume() {
         super.onResume();
-        if (!getUserVisibleHint())
-        {
+        if (!getUserVisibleHint()) {
             return;
         }
 
@@ -153,7 +152,6 @@ public class NotFoundFragment extends Fragment implements OnLocationUpdatedListe
         });
 
     }
-
 
     @Override
     public void OnQuestClicked(GeoQuest q) {

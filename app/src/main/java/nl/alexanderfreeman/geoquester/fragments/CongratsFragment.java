@@ -48,6 +48,8 @@ public class CongratsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+
+                // No giving points twice if the view reloads by accident.
                 if (dataSnapshot.exists()) {
 
                     if (!dataSnapshot.child("found/" + quest_id).exists()) {
@@ -92,9 +94,6 @@ public class CongratsFragment extends Fragment {
 
             }
         });
-        // Get points, update points
-        // Update quest and user object
-
 
         return root;
     }

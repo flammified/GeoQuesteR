@@ -151,7 +151,7 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
                         @Override
                         public void onResult(@NonNull Status status) {
                             if (status.isSuccess()) {
-                                Log.d("DEBUG", "User Logged out");
+                                //Log.d("DEBUG", "User Logged out");
                                 Intent intent = new Intent(MainScreenActivity.this, SignInActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -163,7 +163,7 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
 
             @Override
             public void onConnectionSuspended(int i) {
-                Log.d("DEBUG", "Google API Client Connection Suspended");
+                Toast.makeText(getApplicationContext(), "Connection suspended; try again", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -203,7 +203,7 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
         }
         else {
             fragment = new AccountInfoFragment();
-            Toast.makeText(getApplicationContext(), "Congratulations, you broke it.", Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(), "Congratulations, you broke it.", Toast.LENGTH_LONG).show();
         }
 //        getSupportFragmentManager().popBackStack();
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -221,9 +221,7 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
         ft.addToBackStack("questinfo").replace(R.id.frame, gqif, "GeoQuestInformationFragment");
         ft.commit();
     }
-
-
-
+    
     public void set_to_navigation() {
 
         int size = navview.getMenu().size();

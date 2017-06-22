@@ -107,7 +107,7 @@ public class CompassView  extends android.support.v7.widget.AppCompatImageView i
     rotateImageView(this, drawableResource, rotation);
 
     if (BuildConfig.DEBUG) {
-      Log.d(CompassView.TAG, String.valueOf(rotation));
+      //Log.d(CompassView.TAG, String.valueOf(rotation));
     }
   }
 

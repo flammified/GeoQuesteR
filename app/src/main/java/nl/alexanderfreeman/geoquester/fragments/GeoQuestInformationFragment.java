@@ -38,8 +38,6 @@ public class GeoQuestInformationFragment extends Fragment implements OnMapReadyC
         super.onCreateView(inflater, container, savedInstanceState);
         View root = inflater.inflate(R.layout.quest_information_fragment, container, false);
 
-//        ((MainScreenActivity)getActivity()).set_hamburger(false);
-
         this.quest = (GeoQuest) getArguments().getSerializable("quest");
 
         TextView description = (TextView)root.findViewById(R.id.text_description);
@@ -72,6 +70,12 @@ public class GeoQuestInformationFragment extends Fragment implements OnMapReadyC
     }
 
     @Override
+    public void onClick(View view) {
+        NavigationSingleton.getInstance().setQuest(this.quest);
+        ((MainScreenActivity) getActivity()).set_to_navigation();
+    }
+
+    @Override
     public void onMapReady(GoogleMap map) {
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
@@ -88,9 +92,5 @@ public class GeoQuestInformationFragment extends Fragment implements OnMapReadyC
         mapview.onResume();
     }
 
-    @Override
-    public void onClick(View view) {
-        NavigationSingleton.getInstance().setQuest(this.quest);
-        ((MainScreenActivity) getActivity()).set_to_navigation();
-    }
+
 }

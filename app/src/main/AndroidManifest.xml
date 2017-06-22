@@ -33,6 +33,6 @@
             android:name="nl.alexanderfreeman.geoquester.MainScreenActivity">
         </activity>
 
-        <service android:name=".GeoQuestLocationFetchService" />
+        <service android:enabled="true" android:name=".GeoQuestLocationFetchService" />
     </application>
 </manifest>
