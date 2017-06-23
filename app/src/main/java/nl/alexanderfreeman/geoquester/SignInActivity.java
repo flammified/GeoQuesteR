@@ -55,10 +55,10 @@ public class SignInActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        /** For API level < 23 */
-        if (Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {
-            Utility.fakeLocationDialogAndQuit(this);
-        }
+//        /** For API level < 23 */
+//        if (Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0")) {
+//            Utility.fakeLocationDialogAndQuit(this);
+//        }
 
         SignInButton button = (SignInButton) (findViewById(R.id.google_button));
         button.setOnClickListener(this);

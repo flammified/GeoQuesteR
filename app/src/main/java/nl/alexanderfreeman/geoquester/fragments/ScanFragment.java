@@ -176,10 +176,10 @@ public class ScanFragment extends Fragment {
 
                                             @Override
                                             public void onLocationUpdated(Location my_location) {
-
-                                                if (my_location.isFromMockProvider()) {
-                                                    Utility.fakeLocationDialogAndQuit(getActivity());
-                                                }
+//
+//                                                if (my_location.isFromMockProvider()) {
+//                                                    Utility.fakeLocationDialogAndQuit(getActivity());
+//                                                }
 
                                                 if (my_location.distanceTo(quest.getLocation()) < 50) {
                                                     onFireBaseQRResult(quest, snapshot.getKey());

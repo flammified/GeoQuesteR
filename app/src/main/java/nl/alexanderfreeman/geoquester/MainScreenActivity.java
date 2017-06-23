@@ -13,11 +13,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +33,8 @@ import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 import nl.alexanderfreeman.geoquester.fragments.AccountInfoFragment;
 import nl.alexanderfreeman.geoquester.fragments.CongratsFragment;
 import nl.alexanderfreeman.geoquester.fragments.GeoQuestInformationFragment;
-import nl.alexanderfreeman.geoquester.fragments.NavigationFragment;
+import nl.alexanderfreeman.geoquester.fragments.CompassNavigationFragment;
+import nl.alexanderfreeman.geoquester.fragments.MapNavigationFragment;
 import nl.alexanderfreeman.geoquester.fragments.QuestListFragment;
 import nl.alexanderfreeman.geoquester.fragments.ScanFragment;
 
@@ -192,7 +191,7 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
             fragment = new QuestListFragment();
         }
         else if (itemId == R.id.drawer_navigation) {
-            fragment = new NavigationFragment();
+            fragment = new CompassNavigationFragment();
         }
         else if (itemId == R.id.drawer_scan) {
             fragment = new ScanFragment();
@@ -244,6 +243,23 @@ public class MainScreenActivity extends AppCompatActivity implements DrawerLayou
         ft.replace(R.id.frame, congrats, "congrats");
         ft.commit();
     }
+
+    public void switch_to_map() {
+		MapNavigationFragment mapnav = new MapNavigationFragment();
+
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.frame, mapnav, "map");
+		ft.commit();
+    }
+
+	public void switch_to_compass() {
+		CompassNavigationFragment compassnav = new CompassNavigationFragment();
+
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.frame, compassnav, "map");
+		ft.commit();
+	}
+
 
 
     //Unneeded overrides, shoo.

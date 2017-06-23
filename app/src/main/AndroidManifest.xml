@@ -23,14 +23,17 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".SignInActivity">
+        <activity android:name=".SignInActivity"
+                  android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="nl.alexanderfreeman.geoquester.MainScreenActivity">
+            android:name="nl.alexanderfreeman.geoquester.MainScreenActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <service android:enabled="true" android:name=".GeoQuestLocationFetchService" />

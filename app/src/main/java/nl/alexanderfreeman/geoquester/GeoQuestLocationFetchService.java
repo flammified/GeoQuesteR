@@ -27,6 +27,7 @@ import io.nlopez.smartlocation.SmartLocation;
 import nl.alexanderfreeman.geoquester.beans.GeoQuest;
 
 public class GeoQuestLocationFetchService extends Service {
+
     // constant
     public static final long NOTIFY_INTERVAL = 2 * 60 * 1000; // 10 minutes
     public static final int mId = 5;
@@ -97,23 +98,24 @@ public class GeoQuestLocationFetchService extends Service {
                                     }
 
                                     String text;
+                                    if (close_quests.size() > 0) {
+                                        if (close_quests.size() == 1) {
+                                            text = "There is " + close_quests.size() + " GeoQuest nearby.";
+                                        } else {
+                                            text = "There are " + close_quests.size() + " GeoQuest(s) nearby.";
+                                        }
 
-                                    if (close_quests.size() == 1) {
-                                        text = "There is " + close_quests.size() + " GeoQuest nearby.";
-                                    } else {
-                                        text = "There are " + close_quests.size() + " GeoQuest(s) nearby.";
+                                        NotificationCompat.Builder mBuilder =
+                                                new NotificationCompat.Builder(GeoQuestLocationFetchService.this)
+                                                        .setSmallIcon(R.drawable.ic_stat_explore)
+                                                        .setContentTitle("GeoQuests nearby")
+                                                        .setContentText(text);
+
+                                        Notification noti = mBuilder.build();
+                                        NotificationManager mNotificationManager =
+                                                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                        mNotificationManager.notify(mId, mBuilder.build());
                                     }
-
-                                    NotificationCompat.Builder mBuilder =
-                                            new NotificationCompat.Builder(GeoQuestLocationFetchService.this)
-                                                    .setSmallIcon(R.drawable.ic_stat_explore)
-                                                    .setContentTitle("GeoQuests nearby")
-                                                    .setContentText(text);
-
-                                    Notification noti = mBuilder.build();
-                                    NotificationManager mNotificationManager =
-                                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                    mNotificationManager.notify(mId, mBuilder.build());
                                 }
 
                                 @Override

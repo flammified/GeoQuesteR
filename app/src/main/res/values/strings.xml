@@ -16,4 +16,6 @@
     <string name="placerholder_questpoints">0 QuestPoints earned!</string>
     <string name="placeholder_count">0 GeoQuests completed!</string>
     <string name="no_quest">No quest selected</string>
+    <string name="map_navigation">Map navigation</string>
+    <string name="compass_navigation">Compass navigation</string>
 </resources>
